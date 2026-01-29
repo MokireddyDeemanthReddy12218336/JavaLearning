@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+		
+<context:component-scan base-package="com.mphasis.firstspringapp"/>	
+
+	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/springdb" />
+ 		<property name="username" value="root"/>
+ 		<property name="password" value="root@39"/>
+	</bean>
+	
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />	
+		</bean>
+
+	<bean id="greetService" class="com.mphasis.firstspringapp.service.GreetService" 
+	init-method="init" destroy-method="destroy" lazy-init="true">
+	</bean>
+	
+	<bean id="emailConfig" class="com.mphasis.firstspringapp.service.EmailConfig">
+	<constructor-arg value="192.168.11.2"/>
+	<constructor-arg value="CR56FRT"/>
+	</bean>
+	
+	<bean id="emailService" class="com.mphasis.firstspringapp.service.EmailService">
+	<property name="emailConfig" ref="emailConfig"/>
+	</bean>
+	
+	<bean id="orderService" class="com.mphasis.firstspringapp.service.OrderService">
+	<!--  <property name="emailService" ref="emailService"/>-->
+	</bean>
+	
+	<bean id="product" class="com.mphasis.firstspringapp.model.Product">
+	<property name="id" value="P1"/>
+	<property name="name" value="Mouse"/>
+	<property name="price" value="1500"/>
+	<property name="colorVariants">
+		<list>
+			<value>White</value>
+			<value>Black</value>
+		</list>
+	</property>
+	</bean>
+
+	
+
+</beans>
